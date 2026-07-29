@@ -1,0 +1,38 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+*.so
+*.egg-info/
+
+# Logs
+logs/
+*.log
+
+# Environment
+.env
+.env.*
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build
+dist/
+build/
+
+# Temporary
+temp/
+workspace/
+
+# Node
+node_modules/
+
+# SQLite
+*.db
+*.sqlite
+*.sqlite3
