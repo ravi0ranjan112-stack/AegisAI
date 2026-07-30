@@ -1,0 +1,16 @@
+[app]
+name = "Aegis AI"
+version = "0.1.0"
+
+[system]
+offline = true
+language = "en"
+
+[voice]
+enabled = false
+
+[memory]
+enabled = true
+
+[logging]
+level = "INFO"
