@@ -1,11 +1,37 @@
-from aegis.planner.engine import PlannerEngine
+from aegis.planner.planner import Planner
 
 
-def test_planner():
-    planner = PlannerEngine()
+def test_create_plan():
+    planner = Planner()
 
-    plan = planner.create_plan("Build calculator app")
+    context = planner.create("Run pytest")
 
-    assert plan.goal == "Build calculator app"
-    assert len(plan.tasks) == 6
-    assert plan.tasks[0].title == "Analyze request"
+    assert context.goal == "Run pytest"
+    assert context.steps == []
+    assert context.observations == []
+
+
+def test_add_step():
+    planner = Planner()
+
+    context = planner.create("Goal")
+
+    context.add_step("Run pytest")
+
+    assert len(context.steps) == 1
+    assert context.steps[0].description == "Run pytest"
+
+
+def test_add_observation():
+    planner = Planner()
+
+    context = planner.create("Goal")
+
+    context.add_observation(
+        "shell",
+        "pwd",
+        "/home/user",
+    )
+
+    assert len(context.observations) == 1
+    assert context.observations[0].tool == "shell"
