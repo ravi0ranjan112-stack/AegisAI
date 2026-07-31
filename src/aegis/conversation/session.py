@@ -17,5 +17,11 @@ class ConversationSession:
     def add_assistant(self, text: str) -> None:
         self.messages.append(Message("assistant", text))
 
+    def history(self) -> list[Message]:
+        return list(self.messages)
+
+    def last(self, count: int = 10) -> list[Message]:
+        return self.messages[-count:]
+
     def clear(self) -> None:
         self.messages.clear()

@@ -1,19 +1,53 @@
+from collections.abc import Iterator
+
 from aegis.ai.request import AIRequest
 from aegis.ai.response import AIResponse
+from aegis.conversation.session import ConversationSession
 from aegis.providers.router import ProviderRouter
 
 
 class AIManager:
-    def __init__(self, router: ProviderRouter) -> None:
+    def __init__(
+        self,
+        router: ProviderRouter,
+        session: ConversationSession,
+    ) -> None:
         self._router = router
+        self._session = session
 
     def ask(self, prompt: str) -> str:
         provider = self._router.provider()
 
-        request = AIRequest(prompt=prompt)
+        self._session.add_user(prompt)
+
+        request = AIRequest(
+            prompt=prompt,
+            messages=self._session.messages,
+        )
+
         response: AIResponse = provider.generate(request)
 
+        self._session.add_assistant(response.text)
+
         return response.text
+
+    def stream(self, prompt: str) -> Iterator[str]:
+        provider = self._router.provider()
+
+        self._session.add_user(prompt)
+
+        request = AIRequest(
+            prompt=prompt,
+            messages=self._session.messages,
+        )
+
+        chunks: list[str] = []
+
+        for chunk in provider.stream_generate(request):
+            chunks.append(chunk)
+            yield chunk
+
+        self._session.add_assistant("".join(chunks))
 
     @property
     def active_provider(self) -> str:

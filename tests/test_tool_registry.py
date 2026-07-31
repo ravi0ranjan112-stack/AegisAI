@@ -3,10 +3,11 @@ from aegis.tools.registry import ToolRegistry
 
 
 class DummyTool(BaseTool):
-    name = "dummy"
-    description = "Test tool"
+    @property
+    def name(self) -> str:
+        return "dummy"
 
-    def execute(self):
+    def run(self, command: str) -> str:
         return "OK"
 
 
@@ -15,5 +16,6 @@ def test_tool_registry():
 
     registry.register(DummyTool())
 
-    assert registry.get("dummy") is not None
+    assert registry.has("dummy")
+    assert registry.get("dummy").name == "dummy"
     assert registry.list_tools() == ["dummy"]

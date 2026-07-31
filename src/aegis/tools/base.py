@@ -2,9 +2,13 @@ from abc import ABC, abstractmethod
 
 
 class BaseTool(ABC):
-    name: str = "tool"
-    description: str = ""
+    """Base class for every tool."""
+
+    @property
+    @abstractmethod
+    def name(self) -> str: ...
 
     @abstractmethod
-    def execute(self, *args, **kwargs):
-        raise NotImplementedError
+    def run(self, command: str) -> str:
+        """Execute the tool and return its output."""
+        ...

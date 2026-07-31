@@ -6,5 +6,5 @@ def test_kernel():
 
     assert kernel.ai is not None
     assert kernel.session is not None
-    assert kernel.router.active == "mock"
-    assert kernel.settings.provider == "mock"
+    assert kernel.router.active == "ollama"
+    assert kernel.settings.provider == "ollama"
