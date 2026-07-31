@@ -1,3 +1,5 @@
+from aegis.agent.agent import Agent
+from aegis.agent.executor import AgentExecutor
 from aegis.ai.manager import AIManager
 from aegis.ai.settings import AISettings
 from aegis.conversation.session import ConversationSession
@@ -28,3 +30,8 @@ class AegisKernel:
         tool_registry = ToolFactory.create_registry()
 
         self.tools = ToolManager(tool_registry)
+
+        self.agent = Agent(
+            self.ai,
+            AgentExecutor(self.tools),
+        )

@@ -12,15 +12,25 @@ class OllamaClient:
         self._config = config
 
     def generate(self, request: AIRequest) -> AIResponse:
-        messages = [
+        messages = []
+
+        if request.system_prompt:
+            messages.append(
+                {
+                    "role": "system",
+                    "content": request.system_prompt,
+                }
+            )
+
+        messages.extend(
             {
                 "role": message.role,
                 "content": message.content,
             }
             for message in request.messages
-        ]
+        )
 
-        if not messages:
+        if not request.messages:
             messages.append(
                 {
                     "role": "user",
@@ -54,15 +64,25 @@ class OllamaClient:
         self,
         request: AIRequest,
     ) -> Iterator[str]:
-        messages = [
+        messages = []
+
+        if request.system_prompt:
+            messages.append(
+                {
+                    "role": "system",
+                    "content": request.system_prompt,
+                }
+            )
+
+        messages.extend(
             {
                 "role": message.role,
                 "content": message.content,
             }
             for message in request.messages
-        ]
+        )
 
-        if not messages:
+        if not request.messages:
             messages.append(
                 {
                     "role": "user",

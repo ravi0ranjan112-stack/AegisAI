@@ -2,6 +2,7 @@ from collections.abc import Iterator
 
 from aegis.ai.request import AIRequest
 from aegis.ai.response import AIResponse
+from aegis.ai.system_prompt import SYSTEM_PROMPT
 from aegis.conversation.session import ConversationSession
 from aegis.providers.router import ProviderRouter
 
@@ -22,6 +23,7 @@ class AIManager:
 
         request = AIRequest(
             prompt=prompt,
+            system_prompt=SYSTEM_PROMPT,
             messages=self._session.messages,
         )
 

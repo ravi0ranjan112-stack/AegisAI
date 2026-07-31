@@ -15,9 +15,15 @@ class Agent:
     def run(self, prompt: str) -> str:
         response = self._ai.ask(prompt)
 
-        handled, result = self._loop.handle(response)
+        handled, result = self._loop.run(response)
 
-        if handled:
+        if not handled:
             return result
 
-        return response
+        follow_up = (
+            f"Original user request:\n{prompt}\n\n"
+            f"Tool result:\n{result}\n\n"
+            "Answer the original request using the tool result."
+        )
+
+        return self._ai.ask(follow_up)

@@ -85,8 +85,5 @@ def main() -> None:
             continue
 
         print("Aegis > ", end="", flush=True)
-
-        for chunk in kernel.ai.stream(prompt):
-            print(chunk, end="", flush=True)
-
-        print("\n")
+        print(kernel.agent.run(prompt))
+        print()

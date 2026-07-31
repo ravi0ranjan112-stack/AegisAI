@@ -8,12 +8,17 @@ class AgentLoop:
     def __init__(self, executor: AgentExecutor) -> None:
         self._executor = executor
 
-    def handle(self, response: str) -> tuple[bool, str]:
-        tool_call = parse_tool_call(response)
+    def run(self, response: str) -> tuple[bool, str]:
+        current = response
+        handled = False
 
-        if tool_call is None:
-            return False, response
+        for _ in range(self.MAX_STEPS):
+            call = parse_tool_call(current)
 
-        result = self._executor.execute(tool_call)
+            if call is None:
+                return handled, current
 
-        return True, result
+            handled = True
+            current = self._executor.execute(call)
+
+        return handled, current

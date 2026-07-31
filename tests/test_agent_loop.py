@@ -4,26 +4,20 @@ from aegis.tools.factory import ToolFactory
 from aegis.tools.manager import ToolManager
 
 
-def test_loop_normal_response():
+def make_loop():
     registry = ToolFactory.create_registry()
-    tools = ToolManager(registry)
-    executor = AgentExecutor(tools)
-    loop = AgentLoop(executor)
+    manager = ToolManager(registry)
+    return AgentLoop(AgentExecutor(manager))
 
-    handled, result = loop.handle("Hello!")
 
+def test_normal():
+    handled, result = make_loop().run("hello")
     assert handled is False
-    assert result == "Hello!"
+    assert result == "hello"
 
 
-def test_loop_tool_call():
-    registry = ToolFactory.create_registry()
-    tools = ToolManager(registry)
-    executor = AgentExecutor(tools)
-    loop = AgentLoop(executor)
-
-    handled, result = loop.handle("<tool:shell>\npwd\n</tool>")
-
+def test_pwd():
+    handled, result = make_loop().run("pwd")
     assert handled is True
     assert isinstance(result, str)
     assert result
