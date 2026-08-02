@@ -11,13 +11,13 @@ def make_loop():
 
 
 def test_normal():
-    handled, result = make_loop().run("hello")
+    handled, result, _ = make_loop().run("hello")
     assert handled is False
     assert result == "hello"
 
 
 def test_pwd():
-    handled, result = make_loop().run("pwd")
+    handled, result, _ = make_loop().run("pwd")
     assert handled is True
     assert isinstance(result, str)
     assert result

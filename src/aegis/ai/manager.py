@@ -16,14 +16,19 @@ class AIManager:
         self._router = router
         self._session = session
 
-    def ask(self, prompt: str) -> str:
+    def ask(
+        self,
+        prompt: str,
+        *,
+        system_prompt: str | None = None,
+    ) -> str:
         provider = self._router.provider()
 
         self._session.add_user(prompt)
 
         request = AIRequest(
             prompt=prompt,
-            system_prompt=SYSTEM_PROMPT,
+            system_prompt=system_prompt or SYSTEM_PROMPT,
             messages=self._session.messages,
         )
 
@@ -33,13 +38,19 @@ class AIManager:
 
         return response.text
 
-    def stream(self, prompt: str) -> Iterator[str]:
+    def stream(
+        self,
+        prompt: str,
+        *,
+        system_prompt: str | None = None,
+    ) -> Iterator[str]:
         provider = self._router.provider()
 
         self._session.add_user(prompt)
 
         request = AIRequest(
             prompt=prompt,
+            system_prompt=system_prompt or SYSTEM_PROMPT,
             messages=self._session.messages,
         )
 

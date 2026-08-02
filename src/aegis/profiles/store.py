@@ -1,21 +1,21 @@
-from aegis.config.config import Config
+from aegis.profiles.profile import Profile
 
-_CONFIG = Config(values={})
+_PROFILE = Profile(values={})
 
 
-class ConfigLoader:
+class ProfileStore:
     def execute(self, command: str) -> str:
         action, _, rest = command.partition(" ")
 
         if action == "set":
             key, _, value = rest.partition(" ")
-            _CONFIG.values[key] = value
+            _PROFILE.values[key] = value
             return "OK"
 
         if action == "get":
-            return _CONFIG.values.get(rest, "")
+            return _PROFILE.values.get(rest, "")
 
         if action == "list":
-            return "\n".join(f"{k}={v}" for k, v in sorted(_CONFIG.values.items())) or "Empty"
+            return "\n".join(f"{k}={v}" for k, v in sorted(_PROFILE.values.items())) or "Empty"
 
         return "Usage: set|get|list"

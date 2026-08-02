@@ -1,9 +1,6 @@
-from aegis.workspace.manager import WorkspaceManager
+from aegis.workspace.context import WorkspaceContext
 
 
-def test_workspace_creation():
-    manager = WorkspaceManager("temp_workspace")
-
-    manager.create_project("calculator")
-
-    assert manager.exists("calculator")
+def test_workspace():
+    ctx = WorkspaceContext()
+    assert int(ctx.refresh()) >= 1
