@@ -1,4 +1,4 @@
-from aegis.agent.types import ToolCall
+from aegis.agent.parser import ToolCall
 from aegis.tools.manager import ToolManager
 
 
@@ -7,7 +7,4 @@ class AgentExecutor:
         self._tools = tools
 
     def execute(self, call: ToolCall) -> str:
-        return self._tools.execute(
-            call.tool,
-            call.command,
-        )
+        return self._tools.execute(call.tool, call.command)

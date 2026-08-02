@@ -1,21 +1,21 @@
+from unittest.mock import MagicMock
+
 from aegis.agent.executor import AgentExecutor
-from aegis.agent.types import ToolCall
-from aegis.tools.factory import ToolFactory
-from aegis.tools.manager import ToolManager
+from aegis.agent.parser import ToolCall
 
 
-def test_executor_shell():
-    registry = ToolFactory.create_registry()
-    tools = ToolManager(registry)
+def test_executor() -> None:
+    manager = MagicMock()
+    manager.execute.return_value = "HELLO"
 
-    executor = AgentExecutor(tools)
+    executor = AgentExecutor(manager)
 
     result = executor.execute(
         ToolCall(
-            tool="shell",
-            command="pwd",
+            tool="echo",
+            command="hello",
         )
     )
 
-    assert isinstance(result, str)
-    assert result
+    assert result == "HELLO"
+    manager.execute.assert_called_once_with("echo", "hello")
