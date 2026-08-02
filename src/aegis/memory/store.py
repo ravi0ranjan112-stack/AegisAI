@@ -1,13 +1,19 @@
-from dataclasses import dataclass, field
+from collections import deque
 
 
-@dataclass(slots=True)
 class MemoryStore:
-    entries: list[str] = field(default_factory=list)
+    def __init__(self, limit: int = 1000) -> None:
+        self._entries: deque[str] = deque(maxlen=limit)
 
     def add(self, text: str) -> None:
-        self.entries.append(text)
+        self._entries.append(text)
+
+    def all(self) -> list[str]:
+        return list(self._entries)
 
     def search(self, query: str) -> list[str]:
-        query = query.lower()
-        return [item for item in self.entries if query in item.lower()]
+        q = query.lower()
+        return [e for e in self._entries if q in e.lower()]
+
+    def clear(self) -> None:
+        self._entries.clear()
