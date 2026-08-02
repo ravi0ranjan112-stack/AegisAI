@@ -5,13 +5,13 @@ from aegis.planner.step import PlanStep
 
 
 @dataclass(slots=True)
-class AgentContext:
+class PlannerContext:
     goal: str
     steps: list[PlanStep] = field(default_factory=list)
     observations: list[Observation] = field(default_factory=list)
 
     def add_step(self, description: str) -> None:
-        self.steps.append(PlanStep(description))
+        self.steps.append(PlanStep(description=description))
 
     def add_observation(
         self,

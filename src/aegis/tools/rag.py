@@ -8,4 +8,16 @@ class RagTool(BaseTool):
         return "rag"
 
     def run(self, command: str) -> str:
-        return RagManager().execute(command)
+        action, _, value = command.partition(" ")
+
+        if action == "add":
+            self._manager.add(value, [1.0])
+            return "OK"
+
+        if action == "search":
+            return self._manager.retrieve([1.0])
+
+        return "Usage: add/search"
+
+    def __init__(self) -> None:
+        self._manager = RagManager()

@@ -20,13 +20,13 @@ class AutonomousLoop:
     def run(self, goal: str) -> LoopResult:
         self.memory.add(goal)
 
+        plan = self.planner.create(goal)
+
         history = AgentHistory()
         history.add(goal)
 
-        plan = self.planner.create(goal)
-
         return LoopResult(
             handled=True,
-            result="\n".join(plan.steps),
+            result="\n".join(step.description for step in plan.steps),
             history=history,
         )

@@ -1,6 +1,6 @@
-from aegis.planner.context import AgentContext
+from aegis.planner.context import PlannerContext
 
 
 class Planner:
-    def create(self, goal: str) -> AgentContext:
-        return AgentContext(goal=goal)
+    def create(self, goal: str) -> PlannerContext:
+        return PlannerContext(goal=goal)

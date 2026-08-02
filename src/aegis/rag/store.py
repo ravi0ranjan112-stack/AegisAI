@@ -1,21 +1,12 @@
-from aegis.rag.chunk import Chunk
-
-_CHUNKS: list[Chunk] = []
+from aegis.memory.vector import VectorStore
 
 
-class RagStore:
-    def execute(self, command: str) -> str:
-        action, _, rest = command.partition(" ")
+class RAGStore:
+    def __init__(self) -> None:
+        self._vectors = VectorStore()
 
-        if action == "add":
-            _CHUNKS.append(Chunk(len(_CHUNKS), rest))
-            return "OK"
+    def add(self, doc_id: str, embedding: list[float]) -> None:
+        self._vectors.add(doc_id, embedding)
 
-        if action == "search":
-            result = [chunk.text for chunk in _CHUNKS if rest.lower() in chunk.text.lower()]
-            return "\n".join(result) or "No results"
-
-        if action == "count":
-            return str(len(_CHUNKS))
-
-        return "Usage: add|search|count"
+    def retrieve(self, embedding: list[float]) -> str:
+        return self._vectors.search(embedding)
