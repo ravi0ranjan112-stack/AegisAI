@@ -1,7 +1,7 @@
-from aegis.memory.vector import MemoryIndex
+from aegis.memory.vector import VectorStore
 from aegis.tools.base import BaseTool
 
-_INDEX = MemoryIndex()
+_INDEX = VectorStore()
 
 
 class MemoryTool(BaseTool):
@@ -13,10 +13,10 @@ class MemoryTool(BaseTool):
         action, _, value = command.partition(" ")
 
         if action == "add":
-            _INDEX.add(value)
+            _INDEX.add(value, [1.0])
             return "OK"
 
         if action == "search":
-            return _INDEX.query(value)
+            return _INDEX.search([1.0])
 
         return "Usage: add/search"
