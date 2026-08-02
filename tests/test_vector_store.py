@@ -1,11 +1,12 @@
-from aegis.memory.vector import VectorStore
+from aegis.vector.store import VectorStore
 
 
-def test_vector_store() -> None:
+def test_vector_store():
     store = VectorStore()
 
-    store.add("a", [1.0, 0.0])
-    store.add("b", [0.0, 1.0])
+    store.add("python", "python language")
+    store.add("java", "java language")
 
-    assert store.get("a") == [1.0, 0.0]
-    assert store.search([0.9, 0.1]) == "a"
+    result = store.search("python")
+
+    assert "python" in result
