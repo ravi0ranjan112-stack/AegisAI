@@ -1,11 +1,9 @@
-from aegis.planner.planner import Planner
+from aegis.agent.context import AgentContext
 
 
-def test_context_goal():
-    planner = Planner()
+def test_agent_context() -> None:
+    ctx = AgentContext("Build AI")
 
-    context = planner.create("Run pytest")
-
-    assert context.goal == "Run pytest"
-    assert context.steps == []
-    assert context.observations == []
+    assert ctx.goal == "Build AI"
+    assert ctx.state.goal == "Build AI"
+    assert not ctx.state.finished
