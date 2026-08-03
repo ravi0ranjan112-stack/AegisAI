@@ -18,7 +18,7 @@ class AutonomousLoop:
         self.planner = PlannerEngine()
 
     def run(self, goal: str) -> LoopResult:
-        self.memory.add(goal)
+        self.memory.add("last_task", goal)
 
         plan = self.planner.create(goal)
 

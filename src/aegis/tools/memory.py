@@ -1,22 +1,14 @@
-from aegis.memory.vector import VectorStore
+from aegis.memory.manager import MemoryManager
 from aegis.tools.base import BaseTool
-
-_INDEX = VectorStore()
 
 
 class MemoryTool(BaseTool):
+    def __init__(self) -> None:
+        self._manager = MemoryManager()
+
     @property
     def name(self) -> str:
         return "memory"
 
     def run(self, command: str) -> str:
-        action, _, value = command.partition(" ")
-
-        if action == "add":
-            _INDEX.add(value, [1.0])
-            return "OK"
-
-        if action == "search":
-            return _INDEX.search([1.0])
-
-        return "Usage: add/search"
+        return self._manager.execute(command)
