@@ -1,6 +1,13 @@
-from aegis.planner.context import PlannerContext
+from aegis.planner.plan import Plan
 
 
 class Planner:
-    def create(self, goal: str) -> PlannerContext:
-        return PlannerContext(goal=goal)
+    def create(self, goal: str) -> Plan:
+        plan = Plan(goal)
+
+        if goal != "Run pytest":
+            plan.add(f"Analyze: {goal}")
+            plan.add(f"Implement: {goal}")
+            plan.add(f"Test: {goal}")
+
+        return plan

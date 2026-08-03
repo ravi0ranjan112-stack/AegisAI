@@ -10,7 +10,7 @@ class MemoryManager:
     def execute(self, command: str) -> str:
         action, _, rest = command.partition(" ")
 
-        if action == "add":
+        if action in ("add", "remember"):
             self._store.add(rest)
             return "OK"
 

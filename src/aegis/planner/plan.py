@@ -1,31 +1,28 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
-from aegis.planner.step import Step
+from aegis.planner.task import Task
 
 
 @dataclass(slots=True)
+class Observation:
+    tool: str
+    command: str
+    result: str
+
+
 class Plan:
-    goal: str
-    steps: list[Step] = field(default_factory=list)
+    def __init__(self, goal: str = "") -> None:
+        self.goal = goal
+        self.steps: list[Task] = []
+        self.observations: list[Observation] = []
 
-    def add(
+    def add(self, title: str) -> None:
+        self.steps.append(Task(title=title, id=len(self.steps) + 1))
+
+    def add_observation(
         self,
-        description: str,
-        *,
-        priority: int = 0,
-        depends_on: list[int] | None = None,
-    ) -> Step:
-        step = Step(
-            id=len(self.steps) + 1,
-            description=description,
-            priority=priority,
-            depends_on=depends_on or [],
-        )
-        self.steps.append(step)
-        return step
-
-    def pending(self) -> list[Step]:
-        return [s for s in self.steps if not s.completed]
-
-    def completed(self) -> list[Step]:
-        return [s for s in self.steps if s.completed]
+        tool: str,
+        command: str,
+        result: str,
+    ) -> None:
+        self.observations.append(Observation(tool=tool, command=command, result=result))
