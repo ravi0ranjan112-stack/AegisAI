@@ -1,27 +1,25 @@
-from dataclasses import dataclass, field
+from aegis.conversation.message import Message
 
 
-@dataclass(slots=True)
-class Message:
-    role: str
-    content: str
-
-
-@dataclass(slots=True)
 class ConversationSession:
-    messages: list[Message] = field(default_factory=list)
+    def __init__(self) -> None:
+        self._messages: list[Message] = []
 
-    def add_user(self, text: str) -> None:
-        self.messages.append(Message("user", text))
+    @property
+    def messages(self) -> list[Message]:
+        return self._messages
 
-    def add_assistant(self, text: str) -> None:
-        self.messages.append(Message("assistant", text))
+    def add(self, role: str, content: str) -> None:
+        self._messages.append(Message(role, content))
 
-    def history(self) -> list[Message]:
-        return list(self.messages)
+    def add_user(self, content: str) -> None:
+        self.add("user", content)
 
-    def last(self, count: int = 10) -> list[Message]:
-        return self.messages[-count:]
+    def add_assistant(self, content: str) -> None:
+        self.add("assistant", content)
+
+    def all(self) -> list[Message]:
+        return list(self._messages)
 
     def clear(self) -> None:
-        self.messages.clear()
+        self._messages.clear()
