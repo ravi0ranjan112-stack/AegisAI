@@ -1,10 +1,19 @@
-from dataclasses import dataclass, field
+from aegis.workflow.step import WorkflowStep
 
 
-@dataclass(slots=True)
 class Workflow:
-    name: str
-    steps: list[str] = field(default_factory=list)
+    def __init__(self, name: str = "") -> None:
+        self.name = name
+        self._steps: list[WorkflowStep] = []
 
-    def add(self, step: str) -> None:
-        self.steps.append(step)
+    @property
+    def steps(self) -> list[WorkflowStep]:
+        return self._steps
+
+    def add(self, name: str) -> None:
+        self._steps.append(
+            WorkflowStep(
+                id=len(self._steps) + 1,
+                name=name,
+            )
+        )

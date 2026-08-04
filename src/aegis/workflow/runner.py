@@ -26,6 +26,6 @@ class WorkflowRunner:
             if workflow is None:
                 return "Not found"
 
-            return "\n".join(workflow.steps) or "Empty"
+            return "\n".join(step.name for step in workflow.steps) or "Empty"
 
         return "Usage: create|add|show"
