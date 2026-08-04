@@ -1,8 +1,8 @@
-from aegis.integration.kernel import IntegrationKernel
+from aegis.integration.bootstrap import bootstrap
 
 
-def test_kernel() -> None:
-    kernel = IntegrationKernel()
+def test_bootstrap() -> None:
+    kernel = bootstrap()
 
     assert kernel.agent is not None
     assert kernel.memory is not None
