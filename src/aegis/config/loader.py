@@ -1,21 +1,36 @@
-from aegis.config.config import Config
-
-_CONFIG = Config(values={})
+from aegis.config.settings import Settings
 
 
-class ConfigLoader:
+class SettingsLoader:
+    def __init__(self) -> None:
+        self._settings = Settings()
+        self._extra: dict[str, str] = {}
+
+    def load(self) -> Settings:
+        return self._settings
+
+
+class ConfigLoader(SettingsLoader):
     def execute(self, command: str) -> str:
-        action, _, rest = command.partition(" ")
+        parts = command.split()
 
-        if action == "set":
-            key, _, value = rest.partition(" ")
-            _CONFIG.values[key] = value
+        if len(parts) >= 3 and parts[0] == "set":
+            key = parts[1]
+            value = " ".join(parts[2:])
+
+            if hasattr(self._settings, key):
+                setattr(self._settings, key, value)
+            else:
+                self._extra[key] = value
+
             return "OK"
 
-        if action == "get":
-            return _CONFIG.values.get(rest, "")
+        if len(parts) == 2 and parts[0] == "get":
+            key = parts[1]
 
-        if action == "list":
-            return "\n".join(f"{k}={v}" for k, v in sorted(_CONFIG.values.items())) or "Empty"
+            if hasattr(self._settings, key):
+                return str(getattr(self._settings, key))
 
-        return "Usage: set|get|list"
+            return self._extra.get(key, "Unknown config")
+
+        return "Unknown config"
