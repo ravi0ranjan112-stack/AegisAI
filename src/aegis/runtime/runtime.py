@@ -1,18 +1,34 @@
-from aegis.runtime.session import RuntimeSession
-
-_RUNTIME = RuntimeSession()
+from aegis.runtime.console import Console
 
 
 class Runtime:
-    def execute(self, command: str) -> str:
-        action, _, rest = command.partition(" ")
+    def __init__(self) -> None:
+        self.console = Console()
+        self._state: dict[str, str] = {}
 
-        if action == "set":
-            key, _, value = rest.partition(" ")
-            _RUNTIME.set(key, value)
+    def start(self) -> str:
+        return self.console.banner()
+
+    def handle(self, command: str) -> str:
+        command = command.strip()
+
+        if command.lower() in {"exit", "quit"}:
+            return "Goodbye."
+
+        if not command:
+            return self.console.reply("Please enter a command.")
+
+        return self.console.reply(f"You said: {command}")
+
+    # Backward compatibility for RuntimeTool
+    def execute(self, command: str) -> str:
+        parts = command.split()
+
+        if len(parts) >= 3 and parts[0] == "set":
+            self._state[parts[1]] = " ".join(parts[2:])
             return "OK"
 
-        if action == "get":
-            return _RUNTIME.get(rest)
+        if len(parts) == 2 and parts[0] == "get":
+            return self._state.get(parts[1], "Unknown")
 
-        return "Usage: set|get"
+        return "Unknown command"

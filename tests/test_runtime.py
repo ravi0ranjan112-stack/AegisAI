@@ -1,7 +1,10 @@
 from aegis.runtime.runtime import Runtime
 
 
-def test_runtime():
+def test_runtime() -> None:
     runtime = Runtime()
-    assert runtime.execute("set language python") == "OK"
-    assert runtime.execute("get language") == "python"
+
+    assert "AEGIS AI" in runtime.start()
+    assert runtime.handle("Hello") == "Aegis > You said: Hello"
+    assert runtime.handle("") == "Aegis > Please enter a command."
+    assert runtime.handle("exit") == "Goodbye."
