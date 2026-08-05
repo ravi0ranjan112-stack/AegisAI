@@ -1,19 +1,25 @@
+from aegis.vector.search import VectorSearch
 from aegis.vector.store import VectorStore
 
 
 class VectorManager:
     def __init__(self) -> None:
-        self._store = VectorStore()
+        self.store = VectorStore()
+        self.searcher = VectorSearch(self.store)
 
     def execute(self, command: str) -> str:
-        action, _, rest = command.partition(" ")
+        parts = command.strip().split(maxsplit=2)
 
-        if action == "add":
-            key, _, text = rest.partition(" ")
-            self._store.add(key, text)
+        if not parts:
+            return "Unknown command"
+
+        action = parts[0]
+
+        if action == "add" and len(parts) == 3:
+            self.store.add(parts[1], parts[2])
             return "OK"
 
-        if action == "search":
-            return "\n".join(self._store.search(rest))
+        if action == "search" and len(parts) >= 2:
+            return "\n".join(self.searcher.search(parts[1]))
 
         return "Unknown command"

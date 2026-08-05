@@ -1,12 +1,19 @@
 from aegis.vector.store import VectorStore
 
 
-def test_vector_store():
+def test_vector_store() -> None:
     store = VectorStore()
 
-    store.add("python", "python language")
-    store.add("java", "java language")
+    store.add("1", "Hello")
+    store.add("2", "World")
 
-    result = store.search("python")
+    doc1 = store.get("1")
+    doc2 = store.get("2")
 
-    assert "python" in result
+    assert doc1 is not None
+    assert doc2 is not None
+
+    assert doc1.text == "Hello"
+    assert doc2.text == "World"
+    assert store.get("3") is None
+    assert len(store.all()) == 2

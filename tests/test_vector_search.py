@@ -1,14 +1,16 @@
-from aegis.vector.index import VectorIndex
 from aegis.vector.search import VectorSearch
+from aegis.vector.store import VectorStore
 
 
-def test_vector_search():
-    index = VectorIndex()
+def test_vector_search() -> None:
+    store = VectorStore()
 
-    index.add("python", "python language")
-    index.add("java", "java language")
+    store.add("python", "Python language")
+    store.add("java", "Java language")
 
-    result = VectorSearch(index).search("python")
+    search = VectorSearch(store)
 
-    assert len(result) == 2
-    assert "python" in result
+    result = search.search("python")
+
+    assert len(result) == 1
+    assert result[0] == "python"
