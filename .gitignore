@@ -1,38 +1,11 @@
-# Python
 .venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
 __pycache__/
-*.py[cod]
-*.so
-*.egg-info/
-
-# Logs
+*.pyc
 logs/
-*.log
-
-# Environment
-.env
-.env.*
-
-# IDE
-.vscode/
-.idea/
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Build
-dist/
-build/
-
-# Temporary
-temp/
-workspace/
-
-# Node
-node_modules/
-
-# SQLite
-*.db
-*.sqlite
-*.sqlite3
+src/aegis.egg-info/
+src/aegis/workspace/
