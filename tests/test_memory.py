@@ -1,14 +1,8 @@
-from aegis.memory.store import MemoryStore
+from aegis.memory.memory import Memory
 
 
-def test_memory_store() -> None:
-    mem = MemoryStore()
+def test_memory() -> None:
+    memory = Memory("language", "Python")
 
-    mem.add("hello world")
-    mem.add("python")
-
-    assert mem.search("hello") == ["hello world"]
-    assert mem.search("python") == ["python"]
-
-    mem.clear()
-    assert mem.all() == []
+    assert memory.key == "language"
+    assert memory.value == "Python"

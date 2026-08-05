@@ -1,9 +1,10 @@
 from aegis.memory.manager import MemoryManager
 
 
-def test_memory_manager():
+def test_memory_manager() -> None:
     manager = MemoryManager()
 
-    assert manager.execute("add hello world") == "OK"
-    assert "hello world" in manager.execute("search hello")
-    assert manager.execute("clear") == "OK"
+    manager.remember("language", "Python")
+
+    assert manager.recall("language") == "Python"
+    assert manager.recall("unknown") is None
