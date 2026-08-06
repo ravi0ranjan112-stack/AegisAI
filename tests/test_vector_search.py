@@ -5,12 +5,11 @@ from aegis.vector.store import VectorStore
 def test_vector_search() -> None:
     store = VectorStore()
 
-    store.add("python", "Python language")
-    store.add("java", "Java language")
+    store.add("python", "language")
+    store.add("rust", "systems")
+    store.add("java", "enterprise")
 
     search = VectorSearch(store)
 
-    result = search.search("python")
-
-    assert len(result) == 1
-    assert result[0] == "python"
+    assert search.search("py") == ["python"]
+    assert search.search("rust") == ["rust"]

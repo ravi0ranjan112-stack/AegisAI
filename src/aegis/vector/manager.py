@@ -13,13 +13,13 @@ class VectorManager:
         if not parts:
             return "Unknown command"
 
-        action = parts[0]
+        match parts[0]:
+            case "add" if len(parts) == 3:
+                self.store.add(parts[1], parts[2])
+                return "OK"
 
-        if action == "add" and len(parts) == 3:
-            self.store.add(parts[1], parts[2])
-            return "OK"
+            case "search" if len(parts) >= 2:
+                return "\n".join(self.searcher.search(parts[1]))
 
-        if action == "search" and len(parts) >= 2:
-            return "\n".join(self.searcher.search(parts[1]))
-
-        return "Unknown command"
+            case _:
+                return "Unknown command"
