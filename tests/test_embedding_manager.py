@@ -4,7 +4,4 @@ from aegis.embedding.manager import EmbeddingManager
 def test_embedding_manager() -> None:
     manager = EmbeddingManager()
 
-    score = manager.compare("abc", "abc")
-
-    assert score > 0
-    assert manager.compare("", "") == 0.0
+    assert manager.create("hello world") == [5.0, 5.0]

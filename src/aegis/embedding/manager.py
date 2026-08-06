@@ -1,14 +1,14 @@
-from aegis.embedding.embedder import Embedder
-from aegis.embedding.similarity import Similarity
+from aegis.embedding.provider import EmbeddingProvider
+
+
+class SimpleEmbeddingProvider(EmbeddingProvider):
+    def embed(self, text: str) -> list[float]:
+        return [float(len(word)) for word in text.split()]
 
 
 class EmbeddingManager:
     def __init__(self) -> None:
-        self.embedder = Embedder()
-        self.similarity = Similarity()
+        self.provider = SimpleEmbeddingProvider()
 
-    def compare(self, left: str, right: str) -> float:
-        left_vector = self.embedder.embed(left)
-        right_vector = self.embedder.embed(right)
-
-        return self.similarity.score(left_vector, right_vector)
+    def create(self, text: str) -> list[float]:
+        return self.provider.embed(text)
