@@ -2,7 +2,7 @@ from aegis.memory.memory import Memory
 
 
 def test_memory() -> None:
-    memory = Memory("language", "Python")
+    memory = Memory("name", "Aegis")
 
-    assert memory.key == "language"
-    assert memory.value == "Python"
+    assert memory.key == "name"
+    assert memory.value == "Aegis"
