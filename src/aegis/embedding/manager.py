@@ -1,14 +1,9 @@
-from aegis.embedding.provider import EmbeddingProvider
-
-
-class SimpleEmbeddingProvider(EmbeddingProvider):
-    def embed(self, text: str) -> list[float]:
-        return [float(len(word)) for word in text.split()]
+from aegis.embedding.api import EmbeddingAPI
 
 
 class EmbeddingManager:
     def __init__(self) -> None:
-        self.provider = SimpleEmbeddingProvider()
+        self.api = EmbeddingAPI()
 
     def create(self, text: str) -> list[float]:
-        return self.provider.embed(text)
+        return self.api.embed(text)
