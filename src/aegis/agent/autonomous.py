@@ -1,5 +1,6 @@
 from aegis.agent.executor import AgentExecutor
 from aegis.agent.history import AgentHistory
+from aegis.agent.parser import parse_tool_call
 from aegis.agent.result import LoopResult
 from aegis.ai.manager import AIManager
 from aegis.memory.store import MemoryStore
@@ -24,6 +25,18 @@ class AutonomousLoop:
 
         history = AgentHistory()
         history.add(goal)
+
+        response = self.ai.ask(goal)
+        call = parse_tool_call(response)
+
+        if call is not None:
+            tool_result = self.executor.execute(call)
+            history.add(tool_result)
+            return LoopResult(
+                handled=True,
+                result=tool_result,
+                history=history,
+            )
 
         return LoopResult(
             handled=True,
